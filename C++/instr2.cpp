@@ -7,9 +7,9 @@ int main() {
   char dessert[ArSize];
 
   cout << "Enter your name:\n";
-  cin >> name;  // reads until space.. so, if you use two words, the second will be in the queue and will go to dessert
+  cin.getline(name, ArSize);  // reads through newline
   cout << "Enter your favorite dessert:\n";
-  cin >> dessert; 
+  cin.getline(dessert, ArSize);
   cout << "I have some delicious " << dessert << " for you " << name << endl;
   return 0;
 }
