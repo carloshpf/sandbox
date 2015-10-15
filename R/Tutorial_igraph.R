@@ -52,4 +52,18 @@ g <- graph_from_data_frame(relations, vertices = actors)
 #   e é adicionado um atributo com o weighted
 
 # Criando uma matriz de adjacência
-adjm <- 
+adjm <- matrix(sample(0:1, 100, replace = TRUE, prob = c(0.9, 0.1)), ncol = 10)
+
+# Criando o grafo
+g <- graph_from_adjacency_matrix(adjm)
+
+# Criando outra matriz mas populando ela com valores de 0 a 5
+adjm <- matrix(sample(0:5, 100, replace=TRUE, 
+                      prob=c(0.9,0.02,0.02,0.02,0.02,0.02)), 
+                      ncol=10)
+
+# Criando um grafo com pesos
+g2 <- graph_from_adjacency_matrix(adjm, weighted=TRUE)
+
+# Podemos ver que o atributo weight foi criado
+E(g2)$weight
