@@ -72,4 +72,5 @@ data2 <- data[-c(3, 4), ]
 rowToKeep <- c(TRUE, FALSE, TRUE, TRUE, FALSE, TRUE)
 data3 <- data[rowToKeep, ]
 
-# Order only a specific 
+# Order only a specific subset of a data frame
+data <- read.csv("cities.csv")
