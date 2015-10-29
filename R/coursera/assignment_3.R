@@ -74,3 +74,12 @@ data3 <- data[rowToKeep, ]
 
 # Order only a specific subset of a data frame
 data <- read.csv("cities.csv")
+
+# grep acha a string "China" no factor data$countries e retorna os índices
+grep("China", data$countries)
+# Retorna linha 1 e 2
+# 1 2
+
+# Podemos fazer um subset usando esses índices
+
+
