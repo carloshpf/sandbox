@@ -105,3 +105,6 @@ dataTree <- data.frame(x = c('A', 'A', 'B', 'B', 'B'),
 #       |---BB-------BDD
 
 test <- do.call(rbind, strsplit(as.character(dataTree[, ncol(dataTree)]), split = ""))
+# http://stackoverflow.com/questions/15343338/how-to-convert-a-data-frame-to-tree-structure-object-such-as-dendrogram
+# http://stackoverflow.com/questions/17024626/create-tree-diagram?lq=1
+# http://stackoverflow.com/questions/2310913/how-do-i-manually-create-a-dendrogram-or-hclust-object-in-r?rq=1
