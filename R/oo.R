@@ -13,4 +13,21 @@
 ##  S3 is different. A special type of function called ** generic function **
 ##      decides which method to call (drawRect(canvas, "blue")).
 
-## S4: 
+## S4: more formal than S3.
+
+## Reference classes (RC): implements message-passing OO.
+##  Methods belongs to classes, not funtions.
+##  $ is used to separate objects and methods (canvas$drawRect("blue"))
+
+library(pryr)
+
+df <-data.frame(letters)
+otype(df)    # A data frame is an S3 class
+#> [1] "S3"
+otype(df$x)  # A numeric vector isn't
+#> [1] "base"
+otype(df$y)  # A factor is
+#> [1] "S3"
+
+## In S3, methods belongs to functions, called generic functions.
+## S3 methods do not belongs to objects or classes.
