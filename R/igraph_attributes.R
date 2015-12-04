@@ -1,10 +1,10 @@
 # weight as vertex attribute
 
 set.edge.attribute()
-get.edge.attribute()
+get.edge.attribute(graph)
 remove.edge.attribute()
-list.edge.attributes()
-edge.attributes()
+list.edge.attributes(graph)
+edge.attributes(graph)
 
 
 g <- graph.ring(10)
@@ -24,6 +24,18 @@ E(g)$weight <- runif(ecount(g))
 E(g)$weight
 
 # --
+g <- make_empty_graph(n = 5) %>%
+  add_edges(c(1,2, 2,3, 3,4, 4,5)) %>%
+  set_edge_attr("color", value = "red") %>%
+  add_edges(c(5,1), color = "green")
+E(g)[[]]
+plot(g)
+
+# ---
+g <- make_empty_graph(n = 5)
+g <- add_edges(g, c(1, 2, 3, 4, 5, 1), distances = c(1, 2, 3))
+plot(g, edge.label = E(g)$distances)
+
 
 g <- graph.adjacency(matrix(0,2,2))
 g <- add.edges(g, c(1,2), attr = list(width = 10))
