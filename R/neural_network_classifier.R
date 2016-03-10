@@ -62,6 +62,40 @@ for (i in 1:(numberOfPoints * numberOfClasses)){
 # http://cs231n.github.io/
 # http://junma5.weebly.com/data-blog/build-your-own-neural-network-classifier-in-r
 
+library(ggplot2)
+library(caret)
+
+N <- 200 # number of points per class
+D <- 2 # dimensionality
+K <- 4 # number of classes
+X <- data.frame() # data matrix (each row = single example)
+y <- data.frame() # class labels
+
+set.seed(308)
+
+for (j in (1:K)){
+  r <- seq(0.05,1,length.out = N) # radius
+  t <- seq((j-1)*4.7,j*4.7, length.out = N) + rnorm(N, sd = 0.3) # theta
+  Xtemp <- data.frame(x =r*sin(t) , y = r*cos(t)) 
+  ytemp <- data.frame(matrix(j, N, 1))
+  X <- rbind(X, Xtemp)
+  y <- rbind(y, ytemp)
+}
+
+data <- cbind(X,y)
+colnames(data) <- c(colnames(X), 'label')
+X, y are 800 by 2 and 800 by 1 data frames respectively, and they are created in a way such that a linear classifier cannot separate them. Since the data is 2D, we can easily visualize it on a plot. They are roughly evenly spaced and indeed a line is not a good decision boundary.
+x_min <- min(X[,1])-0.2; x_max <- max(X[,1])+0.2
+y_min <- min(X[,2])-0.2; y_max <- max(X[,2])+0.2
+
+# lets visualize the data:
+ggplot(data) + geom_point(aes(x=x, y=y, color = as.character(label)), size = 2) + theme_bw(base_size = 15) +
+  xlim(x_min, x_max) + ylim(y_min, y_max) +
+  ggtitle('Spiral Data Visulization') +
+  coord_fixed(ratio = 0.8) +
+  theme(axis.ticks=element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
+        axis.text=element_blank(), axis.title=element_blank(), legend.position = 'none')
+
 X <- as.matrix(X)
 Y <- matrix(0, N*K, K)
 
