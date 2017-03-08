@@ -1,0 +1,155 @@
+---
+title: "R Markdown"
+author: "Carlos Porto Filho"
+date: "November 10, 2016"
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+Esse knitr::opts_chunk$set(...) faz com que as opções passadas sejam globais para todos os "chunks" de código
+
+Algumas opções para colocar dentro do {r ...}: include = FALSE faz com que o código e o resultado não apareçam no documento final. 
+echo = FALSE faz com que o código não apareça no documento final mas o resultado sim.
+message = FALSE evita que mensagens geradas pelo código apareçam
+warning = FALSE mesma coisa para warnings
+fig.cap = "..." coloca um caption para resultados gráficos
+
+
+```{r }
+print("Carlos Porto Filho")
+```
+
+Tabelas
+```{r echo = FALSE, results = 'asis'}
+library(knitr)
+kable(mtcars[1:5,], caption = "Uma tabela")
+```
+
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+# Interatividade (caminhada interativa? Selecionando nó inicial e tamanho da memória?)
+```{r include = FALSE}
+library(shiny)
+library(viridis)
+```
+
+You've seen the Maunga Whau volcano displayed in a variety of colors. Now pick your favorite.
+
+```{r echo = FALSE}
+selectInput("colors", "Choose a color palette", 
+  choices = c("viridis", "magma", "inferno", "plasma", "heat",
+  "terrain", "topographic", "cyan/magenta", "rainbow"))
+
+colorPalette <- reactive({
+  switch(input$colors, 
+         "viridis" = viridis(200),
+         "magma" = viridis(200, option = "A"),
+         "inferno" = viridis(200, option = "B"),
+         "plasma" = viridis(200, option = "C"),
+         "heat" = heat.colors(200),
+         "terrain" = terrain.colors(200),
+         "topographic" = topo.colors(200),
+         "cyan/magenta" = cm.colors(200),
+         "rainbow" = rainbow(200))
+})
+
+renderPlot({
+  image(volcano, col = colorPalette())
+})
+```
+
+Adicione runtime: shiny no cabeçalho YAML
+Para adicionar um widget no documeto chame uma função widget no chunk de código (ctrl + alt + i)
+```{r echo = FALSE}
+selectInput("n_breaks", label = "Number of bins:",
+            choices = c(10, 35, 50), selected = 20)
+sliderInput("bw_adjust", label = "Bandwidth adjustment:",
+            min = 0.2, max = 2, value = 1, step = 0.2)
+```
+
+Para adicionar uma saída reativa chame uma função render... como renderImage, renderPlot, renderPrint, renderTable, renderText, renderUI
+Exemplo com renderPlot
+```{r echo = FALSE}
+renderPlot({
+  hist(faithful$eruptions, probability = TRUE, breaks = as.numeric(input$n_breaks),
+       xlab = "Duration (minutes)", main = "Geyser eruption duration")
+  
+  dens <- density(faithful$eruptions, adjust = input$bw_adjust)
+  lines(dens, col = "blue")
+})
+```
+
+Não tem como compartilhar um documento interativo com um html standalone.. tem q rodar o .rmd dentro do rstudio ou com um servidor shiny ou em shinyapps.io
+
+#Mais input/output do shiny
+```{r, echo = FALSE}
+numericInput("rows", "How many cars?", 5)
+
+renderTable({
+  head(cars, input$rows)
+})
+```
+
+
+
+## Guia
+
+Termine uma linha com dois espaços para iniciar um novo parágrafo.  
+Novo parágrafo.
+Não é um novo parágrafo.
+
+*itálico* e _itálico_  
+**negrito** e __negrito__  
+[link](www.google.com)  
+
+# Cabeçalho grande  
+## menor  
+### e assim por diante  
+
+equação: $A = \pi*r^{2}$  
+imagem: ![](Images/taxa de sucesso para Brodatz.png)  
+
+Linha horizontal:
+
+***
+
+> Citação
+
+* item 1
+* item 2
+    + subitem 1
+
+1. lista ordenada
+2. item 2 da lista ordenada
+    + subitem 1
+  
+tabela | tabela
+------ | ------
+célula | célula
+célula | célula
+
+
+
+
